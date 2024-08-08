@@ -1,0 +1,63 @@
+@import '../../assets/base.scss';
+
+.nav{
+    padding-top: 20px;
+    color: #000;
+}
+
+.webSettings{
+    display: flex;
+    justify-content: space-between;
+}
+
+.curLocation{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    
+    &__btn{
+        font-family: 'Sf-pro-Text';
+        background: none;
+        outline: none;
+        border: none;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        
+    }
+}
+
+
+.webLanguage{
+    display: flex;
+    gap: 12px;
+    font-size: 16px;
+    
+    &__changeLang{
+        font-family: 'Sf-pro-Text';
+        display: flex;
+        gap: 5px;
+    }
+    
+    &__txt{
+        font-family: 'Sf-pro-Text';
+        color: #747474;
+        font-size: 16.5px;
+    }
+    
+    &__btn{
+        font-family: 'Sf-pro-Text';
+        font-size: 16px;
+        border: none;
+        outline: none;
+        background: none;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+    }
+}
