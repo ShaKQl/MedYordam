@@ -20,12 +20,16 @@
   --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
 }
 
+
+$text-grey: #747474;
+$weights: (300, 400, 500, 600, 700);
+
+
 *,
 *::before,
 *::after {
   box-sizing: border-box;
   margin: 0;
-  font-weight: normal;
   padding: 0;
 }
 
@@ -37,7 +41,6 @@
   width: 100%;
 }
 
-$weights: (400, 500, 600, 700);
 
 @each $weight in $weights {
   @font-face {

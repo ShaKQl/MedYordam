@@ -12,6 +12,6 @@ import Navbar from "./components/Navbar/Navbar.vue";
 
 <style lang="scss" scoped>
   .wrapper{
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: #F8F8F8;
   }
 </style>
