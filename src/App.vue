@@ -1,13 +1,13 @@
 <template>
   <div class="wrapper">
     <div class="container">
-      <Navbar></Navbar>
+      <Header></Header>
     </div>
   </div>
 </template>
 
 <script setup>
-import Navbar from "./components/Navbar/Navbar.vue";
+import Header from "./components/Header/Header.vue";
 </script>
 
 <style lang="scss" scoped>
