@@ -12,82 +12,68 @@
         </button>
       </div>
       <button class="main__search search">
-        <input
-          v-model="searchBar"
-          
-          type="text"
-          class="search__input"
-          placeholder="Поиск направления"
-        />
+        <input v-model="searchBar" type="text" class="search__input" placeholder="Поиск направления"/>
         <img src="../../assets/images/search.svg" alt="" class="search__img" />
       </button>
 
       <div v-for="el in docList" :key="el.id" class="main__specs doc">
         <div class="doc__wrapper">
           <div class="doc__details">
-            <input
-              @click="el.checked = !el.checked"
-              :id="el.id"
-              type="checkbox"
-              class="doc__checkbox"
-              ref="inputables"
-              @change="chngColor(el.id, inputables[el.id].checked)"
-            />
+            <input @click="chngColor(el.id)" type="checkbox" class="doc__checkbox" ref="inputables" />
             <p class="doc__spcialization">{{ el.name }}</p>
           </div>
-          <p ref="comments" class="doc__comQuantity">({{ el.comments }})</p>
+          <p ref="comments" :class="`doc__comQuantity `">({{ el.comments }})</p>
         </div>
       </div>
     </div>
+
+    <div class="main__recComments recmndtns">
+      <div class="recmndtns__header">
+        <h1 class="recmndtns__headH">Список последних ответов на вопросы <span class="recmndtns__totalCount">(12 493)</span></h1>
+      </div>
+    </div>
+
+
+
   </div>
 </template>
 
 <script setup>
 // import counter from '../../stores/doctors'
 // console.log(counter);
-// **the easier way of getting the store mentioned in the store [counter.js]
-import { ref, watch, onMounted } from "vue";
+// ** above comment is the easier way of getting the store mentioned in the store [counter.js]
 
+import { ref, watch, onMounted } from "vue";
 import { useCounterStore } from "../../stores/counter";
 
 const store = useCounterStore();
 const docList = ref(store.docs);
-
-async function fetchDoctors() {
-  await store.getDoctors(); 
-  docList.value = store.docs;
-}
-
-
+const inputables = ref(null);
 const comments = ref(null);
 const searchBar = ref("");
 
-function chngColor(id, tag) {
-  if (tag) {
-    comments.value[id].style.color = "#0129E3";
-  } else {
-    comments.value[id].style.color = `var(--text-grey)`;
-  }
+async function fetchDoctors() {
+  await store.getDoctors();
+  docList.value = store.docs;
 }
 
+function chngColor(id) {
+  comments.value[id].classList.toggle('doc__comQuantity--active')
+}
 
 watch(searchBar, () => {
-    docList.value = docList.value.filter((el) => {
-      return el.name.toLowerCase().includes(searchBar.value.toLowerCase());
-    });
+  docList.value = store.docs.filter((el) => {
+    return el.name.toLowerCase().includes(searchBar.value.toLowerCase());
+  });
 });
 
-const inputables = ref(null);
-
 function cancelChoice() {
-  inputables.value.forEach((elem, id) => {
-    if (elem.checked) {
-      elem.checked = false;
-      chngColor(id, elem.checked);
-    }
-  });
+  inputables.value.forEach(elem => elem.checked = false);
+  comments.value.forEach(elem => elem.classList.remove('doc__comQuantity--active'))
+  searchBar.value = ''
 }
-onMounted(fetchDoctors)
+
+onMounted(fetchDoctors);
 </script>
 
 <style lang="scss" scoped></style>
