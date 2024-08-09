@@ -1,12 +1,22 @@
-import { ref, computed } from 'vue'
-import { defineStore } from 'pinia'
+import { ref } from 'vue';
+import { defineStore } from 'pinia';
+import axios from 'axios';
 
 export const useCounterStore = defineStore('counter', () => {
-  const count = ref(0)
-  const doubleCount = computed(() => count.value * 2)
-  function increment() {
-    count.value++
+  const docs = ref([]);
+  let searchText = ref(" ")
+  
+   async function getDoctors() {
+    try {
+      const result = await axios.get('/src/stores/doctors.json')
+      docs.value = result.data;
+    } catch (error) {
+      console.error('Error fetching doctors:', error);
+    }
   }
 
-  return { count, doubleCount, increment }
-})
+  return { docs, getDoctors, searchText };
+});
+
+//I used this way to show my ability to work with stores
+// There was a simplier way of just importing JSON file into the component without using the store instance

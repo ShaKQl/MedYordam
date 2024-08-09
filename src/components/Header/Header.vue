@@ -62,6 +62,7 @@
     </div>
 
     <div class="nav__infoSlide infoSlide">
+      
       <p class="infoSlide__serviceName">Консультация от врачей</p>
       <h1 class="infoSlide__servicePromote">
         Получайте бесплатную консультацию <br>от лучших специалистов
@@ -107,6 +108,7 @@
           <p class="facilities__desc">Анкет пользователей</p>
         </li>
       </ul>
+      <img src="../../assets/images/question-circle.png" alt="" class="infoSlide__bgImg">
     </div>
   </div>
 </template>

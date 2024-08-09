@@ -1,0 +1,100 @@
+.main{
+    display: flex;
+    color: $text-mainFilter-color;
+    font-family: $fontName;
+        // display: inline-block;
+    
+    &__filtres{
+        font-size: 16px;
+        padding: 30px 20px;
+        background: #fff;
+        border-radius: 18px;
+        max-width: 335px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    &__search{
+        display: flex;
+        background: #F8F8F8;
+        justify-content: space-between;
+        border: none;
+        outline: none;
+        padding: 17px 20px;
+        border-radius: 12px;
+    }
+
+
+}
+
+.filtres{
+    &__header{
+        display: flex;
+        justify-content: space-between;
+        align-items:end;
+    }
+
+    &__h{
+        font-size: 20px;
+        font-weight: 500;
+    }
+
+    &__resetBtn{
+        background: none;
+        border: none;
+        outline: none;
+        display: flex;
+        gap: 8px;
+        font-weight: 500;
+        font-size: 14px;
+        font-family: $fontName;
+        color: #DE303A;
+        cursor: pointer;
+    }
+}
+
+.search{
+    &__input{
+        outline: none;
+        border: none;
+        background: none;
+        font-size: 14px;
+        color: $text-grey;
+        font-family: $fontName;
+
+    }
+}
+
+.doc{
+    &__wrapper{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+     
+    }
+
+    &__details{
+        display: flex;
+        gap: 12px;
+    }
+
+    &__checkbox{
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+    }
+
+    &__comQuantity{
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 100%;
+        color: $text-grey;
+        
+        &--active{
+            color: $text-docComments-blue;
+        }
+    }
+
+}

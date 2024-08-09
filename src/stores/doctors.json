@@ -1,0 +1,92 @@
+[
+    {
+        "id": 0,
+        "checked": false,
+        "name": "Аллерголог",
+        "comments": 12312
+    },
+    {
+        "id": 1,
+        "checked": false,
+        "name": "Андролог",
+        "comments": 12312
+    },
+    {
+        "id": 2,
+        "checked": false,
+        "name": "Венеролог",
+        "comments": 12312
+    },
+    {
+        "id": 3,
+        "checked": false,
+        "name": "Врач УЗИ",
+        "comments": 12312
+    },
+    {
+        "id": 4,
+        "checked": false,
+        "name": "Гастроэтеролог",
+        "comments": 12312
+    },
+    {
+        "id": 5,
+        "checked": false,
+        "name": "Гематолог",
+        "comments": 12312
+    },
+    {
+        "id": 6,
+        "checked": false,
+        "name": "Генетик",
+        "comments": 12312
+    },
+    {
+        "id": 7,
+        "checked": false,
+        "name": "Гинеколог",
+        "comments": 12312
+    },
+    {
+        "id": 8,
+        "checked": false,
+        "name": "Дерматолог",
+        "comments": 12312
+    },
+    {
+        "id":9,
+        "checked": false,
+        "name": "Диетолог",
+        "comments": 12312
+    },
+    {
+        "id": 10,
+        "checked": false,
+        "name": "Инфекционист",
+        "comments": 12312
+    },
+    {
+        "id": 11,
+        "checked": false,
+        "name": "Кардиолог",
+        "comments": 12312
+    },
+    {
+        "id": 12,
+        "checked": false,
+        "name": "ЛОР",
+        "comments": 12312
+    },
+    {
+        "id": 13,
+        "checked": false,
+        "name": "Маммолог",
+        "comments": 12312
+    },
+    {
+        "id": 14,
+        "checked": false,
+        "name": "Нарколог",
+        "comments": 12312
+    }
+]
