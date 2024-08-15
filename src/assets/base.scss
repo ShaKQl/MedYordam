@@ -6,11 +6,14 @@
 
 
 $text-grey: #747474;
-$weights: (300, 400, 500, 600, 700);
-$fontName: 'SfProText';
+$fontName: 'SF-Pro-Text';
+
 $text-mainFilter-color: #050B2B;
 $text-docComments-blue: #0129E3;
 $simple-white: #fff;
+$comment-background-color:#F8F8F8;
+$comment-gradient:linear-gradient(135deg, #379FF2 2%, #022FE4 91%);
+$user-ava-male: #1760D7;
 
 *,
 *::before,
@@ -38,7 +41,8 @@ ul, ol{
 }
 
 
-@each $weight in $weights {
+$sf-text-weights: (300, 400, 500, 600, 700);
+@each $weight in $sf-text-weights {
   @font-face {
     font-family: $fontName;
     font-weight: $weight;
