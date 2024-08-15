@@ -2,6 +2,7 @@
     display: flex;
     color: $text-mainFilter-color;
     font-family: $fontName;
+    gap: 20px;
         // display: inline-block;
     
     &__filtres{
@@ -24,8 +25,11 @@
         outline: none;
         padding: 17px 20px;
         border-radius: 12px;
-    }
+    };
 
+    &__recComments{
+        
+    }
 
 }
 
@@ -84,6 +88,8 @@
         width: 20px;
         height: 20px;
         cursor: pointer;
+        border-color: $text-grey;
+        border: solid 20px $text-grey;
     }
 
     &__comQuantity{
@@ -97,4 +103,75 @@
         }
     }
 
+}
+
+
+
+.recmndtns{
+    width: 100%;
+    font-family: $fontName;
+    &__header{
+        align-items: end;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 35px;
+    }
+    
+    &__totalCount{
+        color: $text-grey;
+    }
+    
+    &__searchBar{
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        line-height: 130%;
+    }
+}
+
+.recTitle{
+    &__headbar{
+        font-size: 50px;
+        letter-spacing: -0.02em;
+        line-height: 105%;
+    }
+    
+    &__sortBtn{
+        font-family: $fontName;
+        background: none;
+        border: none;
+        outline: none;
+        display: flex;
+        padding: 20px 40px;
+        gap: 8px;
+        white-space: nowrap;
+        background: #fff;
+        border-radius: 12px;
+    }
+}
+
+.searchTerm{
+    &__input{
+        font-family: $fontName;
+        border: none;
+        outline: none;
+        padding: 28px 30px;
+        color: $text-grey;
+        width: 100%;
+        border-radius: 16px;
+        font-size: 16px;
+    }
+    
+    &__searchBtn{
+        font-size: 16px;
+        font-family: $fontName;
+        display: flex;
+        gap: 12px;
+        border: none;
+        outline: none;
+        background: $text-docComments-blue ;
+        padding: 30px 60px;
+        color: $simple-white;
+        border-radius: 16px;
+    }
 }
