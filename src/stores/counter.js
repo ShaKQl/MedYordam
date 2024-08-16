@@ -19,4 +19,4 @@ export const useCounterStore = defineStore('counter', () => {
 });
 
 //I used this way to show my ability to work with stores
-// There was a simplier way of just importing JSON file into the component without using the store instance
+// There was a simplier way of just importing JSON instance file inside of the making the asynchronous request
