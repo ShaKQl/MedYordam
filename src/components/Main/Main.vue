@@ -29,11 +29,12 @@
               type="checkbox"
               class="doc__checkbox"
               ref="inputables"
-              
             />
             <p class="doc__spcialization">{{ el.name }}</p>
           </div>
-          <p ref="comments" :id="el.id" :class="`doc__comQuantity `">({{ el.comments }})</p>
+          <p ref="comments" :id="el.id" :class="`doc__comQuantity `">
+            ({{ el.comments }})
+          </p>
         </div>
       </div>
     </div>
@@ -68,12 +69,11 @@
 
       <div class="recmndtns__commSection recHelp">
         <div class="recHelp__helpSection comment">
-          
           <div class="comment__header helpData">
             <p class="helpData__qstionCount">Вопрос: 21408</p>
             <p class="helpData__qstionDate">Январь 27, 2024 9:41 pm</p>
           </div>
-          
+
           <div class="comment__wrapper">
             <div class="comment__asker user">
               <div class="user__qstion question">
@@ -87,18 +87,27 @@
                   быстро уставать и появилась постоянная усталость, несмотря на
                   полноценный сон. К тому же, у меня снизился аппетит, и я замечаю
                   периодические головные боли. Могли бы вы подсказать, что это может быть
-                  и какие обследования мне стоит пройти для уточнения... <span class="question__moreBtn">Читать полностью</span>
-                </div> 
+                  и какие обследования мне стоит пройти для уточнения...
+                  <span class="question__moreBtn">Читать полностью</span>
+                </div>
               </div>
 
               <div class="user__ava avatar">
-                <img src="../../assets/images/Male.png" alt="" class="avatar__img user__ava_img" />
+                <img
+                  src="../../assets/images/Male.png"
+                  alt=""
+                  class="avatar__img user__ava_img"
+                />
               </div>
             </div>
 
             <div class="comment__answerer answerer">
               <div class="answerer__ava docAvatar">
-                <img src="../../assets/images/UsmanAkaDoctor.jpg" alt="" class="docAvatar__img answerer__ava_img" />
+                <img
+                  src="../../assets/images/UsmanAkaDoctor.jpg"
+                  alt=""
+                  class="docAvatar__img answerer__ava_img"
+                />
               </div>
               <div class="user__qstion answer">
                 <div class="answer__data">
@@ -106,56 +115,24 @@
                   <p class="answer__docDate">Январь 28, 2024 9:41 pm</p>
                 </div>
 
-                <div class="answer__text">
-                  "Можете ли вы, пожалуйста, объяснить, какие могут быть причины моих текущих симптомов (укажите свои симптомы), какие диагностические тесты вы рекомендуете для подтверждения диагноза, и какие методы лечения или изменения в образе жизни вы считаете наиболее эффективными для улучшения моего... <span class="answer__moreBtn">Читать полностью</span>
+                <div class="answer__wrapper">
+                  <div class="answer__text">
+                    "Можете ли вы, пожалуйста, объяснить, какие могут быть причины моих
+                    текущих симптомов (укажите свои симптомы), какие диагностические тесты
+                    вы рекомендуете для подтверждения диагноза, и какие методы лечения или
+                    изменения в образе жизни вы считаете наиболее эффективными для
+                    улучшения моего
+                    l;ajsdfjajladjfajljadfljaalsdfjlajsdflajsdfalsdfkjaldfjkal;sdfkjaslsfjasl;dfjk...
+                    <span class="answer__moreBtn">Читать полностью</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="recHelp__helpSection comment">
-          
-          <div class="comment__header helpData">
-            <p class="helpData__qstionCount">Вопрос: 21408</p>
-            <p class="helpData__qstionDate">Январь 27, 2024 9:41 pm</p>
-          </div>
-          <div class="comment__wrapper">
-            <div class="comment__asker user">
-              <div class="user__qstion question">
-                <div class="question__data">
-                  <p class="question__ansCount">Получено ответов (3)</p>
-                  <p class="question__userData">Lorri Warf (26 лет)</p>
-                </div>
 
-                <div class="question__text">
-                  "Здравствуйте, доктор. В последнее время я заметил(а), что стал(а)
-                  быстро уставать и появилась постоянная усталость, несмотря на
-                  полноценный сон. К тому же, у меня снизился аппетит, и я замечаю
-                  периодические головные боли. Могли бы вы подсказать, что это может быть
-                  и какие обследования мне стоит пройти для уточнения... <span class="question__moreBtn">Читать полностью</span>
-                </div>
-              </div>
-
-              <div class="user__ava avatar">
-                <img src="../../assets/images/Male.png" alt="" class="avatar__img" />
-              </div>
-            </div>
-
-            <div class="comment__answerer answerer">
-              <div class="answerer__ava docAvatar">
-                <img src="../../assets/images/UsmanAkaDoctor.jpg" alt="" class="docAvatar__img" />
-              </div>
-              <div class="user__qstion answer">
-                <div class="answer__data">
-                  <p class="answer__ansDoc">Mary Freund (Гастроинтеролог)</p>
-                  <p class="answer__docDate">Январь 28, 2024 9:41 pm</p>
-                </div>
-
-                <div class="answer__text">
-                  "Можете ли вы, пожалуйста, объяснить, какие могут быть причины моих текущих симптомов (укажите свои симптомы), какие диагностические тесты вы рекомендуете для подтверждения диагноза, и какие методы лечения или изменения в образе жизни вы считаете наиболее эффективными для улучшения моего... <span class="answer__moreBtn">Читать полностью</span>
-                </div>
-              </div>
-            </div>
+            <button class="comment__allAnswers showAll">
+              <p class="showAll__text">Смотреть все ответы (2)</p>
+              <img src="../../assets/images/Dropdown.svg" alt="" class="showAll__svg" />
+            </button>
           </div>
         </div>
       </div>
@@ -176,7 +153,7 @@ const store = useCounterStore();
 const docList = ref(store.docs);
 const inputables = ref(null);
 const searchBar = ref("");
-const comments = ref("")
+const comments = ref("");
 
 async function fetchDoctors() {
   await store.getDoctors();

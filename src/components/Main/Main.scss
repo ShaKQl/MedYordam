@@ -254,8 +254,30 @@
         flex-direction: column;
         gap: 20px;
     }
+
+    &__allAnswers{
+        padding: 20px 0;
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        align-items: center;
+        background: $comment-background-color;
+        border: none;
+        outline: none;
+        border-radius: 12px;
+        color: $text-grey;
+    }
 }
 
+.showAll{
+    cursor: pointer;
+    &__text{
+        font-family: $fontName;
+        font-size: 14px;
+        font-weight: 500;
+
+    }
+}
 
 .user {
     display: flex;
@@ -324,13 +346,27 @@
         font-weight: 400;
     }
 
+    &__wrapper{
+        display: flex;
+        align-items: baseline;
+    }
+
     &__text {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+
         color: $simple-white;
         font-size: 14px;
         font-weight: 300;
     }
 
     &__moreBtn {
-        color: $simple-white;
+        // color: $simple-white;
+        color: #DE303A;
+        bottom: 0;
+        right: 0;
+        background: $text-docComments-blue;
     }
 }

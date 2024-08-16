@@ -8,7 +8,7 @@ export const useCounterStore = defineStore('counter', () => {
   
    async function getDoctors() {
     try {
-      const result = await axios.get('/src/stores/doctors.json')
+      const result = await axios.get('/src/stores/JSON/doctors.json')
       docs.value = result.data;
     } catch (error) {
       console.error('Error fetching doctors:', error);
