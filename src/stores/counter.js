@@ -4,6 +4,7 @@ import axios from 'axios';
 
 export const useCounterStore = defineStore('counter', () => {
   const docs = ref([]);
+  const users = ref([])
   let searchText = ref(" ")
   
    async function getDoctors() {
@@ -14,8 +15,17 @@ export const useCounterStore = defineStore('counter', () => {
       console.error('Error fetching doctors:', error);
     }
   }
+   async function getComments() {
+    try {
+      const result = await axios.get('/src/stores/JSON/users.json')
+      users.value = result.data;
+      console.log(users.value);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+  }
 
-  return { docs, getDoctors, searchText };
+  return { docs, users, getDoctors, getComments, searchText };
 });
 
 //I used this way to show my ability to work with stores

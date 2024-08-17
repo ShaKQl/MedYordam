@@ -15,6 +15,11 @@
         margin-top: 10px;
         font-size: 14px;
         color: $text-mainFilter-color;
+
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        overflow: hidden;
     }
 
     &__ansCount {
@@ -47,7 +52,7 @@
     &__filtres {
         font-size: 16px;
         padding: 30px 20px;
-        background: #fff;
+        background: $simple-white;
         border-radius: 18px;
         max-width: 335px;
         width: 100%;
@@ -58,7 +63,7 @@
 
     &__search {
         display: flex;
-        background: #F8F8F8;
+        background: $comment-background-color;
         justify-content: space-between;
         border: none;
         outline: none;
@@ -90,7 +95,7 @@
         font-weight: 500;
         font-size: 14px;
         font-family: $fontName;
-        color: #DE303A;
+        color: $filter-reset-button;
         cursor: pointer;
     }
 }
@@ -189,7 +194,7 @@
         padding: 20px 40px;
         gap: 8px;
         white-space: nowrap;
-        background: #fff;
+        background: $simple-white;
         border-radius: 12px;
     }
 }
@@ -239,7 +244,7 @@
     font-family: $fontName;
     background: $simple-white;
     border-radius: 18px;
-
+    
     &__header {
         color: $simple-white;
         display: flex;
@@ -248,34 +253,48 @@
         background: $comment-gradient;
     }
 
-    &__wrapper {
-        padding: 17px 18px;
+    
+    &__ansWrapper{
         display: flex;
         flex-direction: column;
         gap: 20px;
-    }
+        padding: 24px 18px 17px 18px    ;
 
-    &__allAnswers{
-        padding: 20px 0;
-        display: flex;
-        gap: 8px;
-        justify-content: center;
-        align-items: center;
-        background: $comment-background-color;
-        border: none;
-        outline: none;
-        border-radius: 12px;
-        color: $text-grey;
     }
+    
+    
 }
 
+
 .showAll{
+    padding: 20px 0;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+    background: $comment-background-color;
+    border: none;
+    outline: none;
+    border-radius: 12px;
+    color: $text-grey;
+    width: 100%;
+    
     cursor: pointer;
+    
     &__text{
         font-family: $fontName;
         font-size: 14px;
         font-weight: 500;
+        
+    }
 
+    &__svg{
+        transition: 0.5s ease;
+        &--rotateUp{
+            // transition: 0.5s ease;
+            // display: inline-fle;
+            transform: rotateZ(180deg);
+        }
     }
 }
 
@@ -284,14 +303,17 @@
     gap: 14px;
     justify-content: space-between;
     align-items: start;
-
+    
     &__ava {
         padding: 20px;
         background-color: $user-ava-male;
         border-radius: 50%;
         height: 70px;
         width: 70px;
-
+        
+        &--female{
+            background: $user-ava-female;
+        }
     }
 }
 
@@ -303,8 +325,26 @@
 .answerer {
     display: flex;
     justify-content: space-between;
-    gap: 14px;
+    gap: 10px;
     align-items: start;
+    margin-bottom: 10px;
+
+    &__wrapper{
+        // margin-bottom: 24px;
+        max-height: 140px;
+        overflow: hidden;
+        transition: max-height 1s ease;
+        
+        &--opened{
+            max-height: 500px;
+            transition: max-height 1sec ease;
+            
+            @media (max-height > 250px ) {
+                overflow:visible;   
+            }
+        }
+        
+    }
 }
 
 .docAvatar {
@@ -354,7 +394,7 @@
     &__text {
         display: -webkit-box;
         -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
+        -webkit-line-clamp: 3;
         overflow: hidden;
 
         color: $simple-white;
@@ -363,8 +403,7 @@
     }
 
     &__moreBtn {
-        // color: $simple-white;
-        color: #DE303A;
+        color: $simple-white;
         bottom: 0;
         right: 0;
         background: $text-docComments-blue;

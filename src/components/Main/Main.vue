@@ -12,27 +12,17 @@
         </button>
       </div>
       <button class="main__search search">
-        <input
-          v-model="searchBar"
-          type="text"
-          class="search__input"
-          placeholder="Поиск направления"
-        />
+        <input v-model="searchBar" type="text" class="search__input" placeholder="Поиск направления" />
         <img src="../../assets/images/search.svg" alt="" class="search__img" />
       </button>
 
       <div v-for="el in docList" :key="el.id" class="main__specs doc">
         <div class="doc__wrapper">
           <div class="doc__details">
-            <input
-              @click="chngColor(el.id)"
-              type="checkbox"
-              class="doc__checkbox"
-              ref="inputables"
-            />
+            <input @click="chngColor(el.id)" type="checkbox" class="doc__checkbox" ref="inputables" />
             <p class="doc__spcialization">{{ el.name }}</p>
           </div>
-          <p ref="comments" :id="el.id" :class="`doc__comQuantity `">
+          <p ref="filterCount" :id="el.id" :class="`doc__comQuantity `">
             ({{ el.comments }})
           </p>
         </div>
@@ -46,21 +36,13 @@
           <span class="recmndtns__totalCount">(12 493)</span>
         </h1>
         <button class="recTitle__sortBtn">
-          <img
-            src="../../assets/images/sort-amount-up.svg"
-            alt=""
-            class="recTitle__svg"
-          />
+          <img src="../../assets/images/sort-amount-up.svg" alt="" class="recTitle__svg" />
           <p class="recTitle__sortby">Сортировать по</p>
         </button>
       </div>
 
       <div class="recmndtns__searchBar searchTerm">
-        <input
-          type="text"
-          class="searchTerm__input"
-          placeholder="Искать по тексту в вопросе"
-        />
+        <input type="text" class="searchTerm__input" placeholder="Искать по тексту в вопросе" />
         <button class="searchTerm__searchBtn">
           <img src="../../assets/images/searchForBtn.svg" alt="" class="searchBtn__svg" />
           <p class="searchTerm__searchTxt">Поиск</p>
@@ -68,70 +50,64 @@
       </div>
 
       <div class="recmndtns__commSection recHelp">
-        <div class="recHelp__helpSection comment">
+        <div v-for="el in comments" :key="el.id" class="recHelp__helpSection comment">
           <div class="comment__header helpData">
-            <p class="helpData__qstionCount">Вопрос: 21408</p>
-            <p class="helpData__qstionDate">Январь 27, 2024 9:41 pm</p>
+            <p class="helpData__qstionCount">Вопрос: {{ el.commentCount }}</p>
+            <p class="helpData__qstionDate">{{ unixToReadable(el.date) }}</p>
           </div>
 
-          <div class="comment__wrapper">
+          <div class="comment__ansWrapper">
+
             <div class="comment__asker user">
               <div class="user__qstion question">
                 <div class="question__data">
-                  <p class="question__ansCount">Получено ответов (3)</p>
-                  <p class="question__userData">Lorri Warf (26 лет)</p>
+                  <p class="question__ansCount">
+                    Получено ответов ({{ el.answersGot }})
+                  </p>
+                  <p class="question__userData">{{ el.name }} ({{ el.age }} лет)</p>
                 </div>
 
                 <div class="question__text">
-                  "Здравствуйте, доктор. В последнее время я заметил(а), что стал(а)
-                  быстро уставать и появилась постоянная усталость, несмотря на
-                  полноценный сон. К тому же, у меня снизился аппетит, и я замечаю
-                  периодические головные боли. Могли бы вы подсказать, что это может быть
-                  и какие обследования мне стоит пройти для уточнения...
+                  "{{ el.question }}...
                   <span class="question__moreBtn">Читать полностью</span>
                 </div>
               </div>
 
-              <div class="user__ava avatar">
-                <img
-                  src="../../assets/images/Male.png"
-                  alt=""
-                  class="avatar__img user__ava_img"
-                />
+              <div v-if="el.gender == 'Male'" class="user__ava">
+                  <img src="../../assets/images/Male.png" alt="" class=" user__ava_img" />
+              </div>
+
+              <div v-else class="user__ava user__ava--female">
+                  <img src="../../assets/images/FeMale.png" alt="" class=" user__ava_img " />
               </div>
             </div>
 
-            <div class="comment__answerer answerer">
-              <div class="answerer__ava docAvatar">
-                <img
-                  src="../../assets/images/UsmanAkaDoctor.jpg"
-                  alt=""
-                  class="docAvatar__img answerer__ava_img"
-                />
-              </div>
-              <div class="user__qstion answer">
-                <div class="answer__data">
-                  <p class="answer__ansDoc">Mary Freund (Гастроинтеролог)</p>
-                  <p class="answer__docDate">Январь 28, 2024 9:41 pm</p>
-                </div>
+            <div class="answerer__wrapper" :id="`answers-${el.id}`">
+              <div v-for="elem in el.answers" :key="elem.id" class="comment__answerer answerer">
+                <div class="answerer__ava docAvatar">
 
-                <div class="answer__wrapper">
-                  <div class="answer__text">
-                    "Можете ли вы, пожалуйста, объяснить, какие могут быть причины моих
-                    текущих симптомов (укажите свои симптомы), какие диагностические тесты
-                    вы рекомендуете для подтверждения диагноза, и какие методы лечения или
-                    изменения в образе жизни вы считаете наиболее эффективными для
-                    улучшения моего
-                    l;ajsdfjajladjfajljadfljaalsdfjlajsdflajsdfalsdfkjaldfjkal;sdfkjaslsfjasl;dfjk...
-                    <span class="answer__moreBtn">Читать полностью</span>
+                  <img src="../../assets/images/UsmanAkaDoctor.jpg" alt="" class="docAvatar__img answerer__ava_img" />
+                </div>
+                <div class="user__qstion answer">
+                  <div class="answer__data">
+                    <p class="answer__ansDoc">{{ elem.name }} ({{ elem.type }})</p>
+                    <p class="answer__docDate">{{ unixToReadable(elem.date) }}</p>
+                  </div>
+
+                  <div class="answer__wrapper">
+                    <div class="answer__text">
+                      "{{ elem.answer }}...
+                      <span class="answer__moreBtn">Читать полностью</span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-
-            <button class="comment__allAnswers showAll">
-              <p class="showAll__text">Смотреть все ответы (2)</p>
-              <img src="../../assets/images/Dropdown.svg" alt="" class="showAll__svg" />
+            <button @click="commentsExpand(el.id)" class="comment__allAnswers showAll">
+              <p class="showAll__text">
+                Смотреть все ответы ({{ el.answers.length - 1 }})
+              </p>
+              <img src="../../assets/images/Dropdown.svg" :id="`showRest-answers-comment-svg-${el.id}`" alt="" class="showAll__svg" />
             </button>
           </div>
         </div>
@@ -148,12 +124,16 @@
 import { ref, watch, onMounted } from "vue";
 import { useCounterStore } from "../../stores/counter";
 
+
+
+
+
 //----------------------------------------FILTER_SECTION-------------------------------------------\\
 const store = useCounterStore();
 const docList = ref(store.docs);
 const inputables = ref(null);
 const searchBar = ref("");
-const comments = ref("");
+const filterCount = ref("");
 
 async function fetchDoctors() {
   await store.getDoctors();
@@ -171,14 +151,54 @@ watch(searchBar, () => {
 });
 
 function cancelChoice() {
-  console.log(comments);
   inputables.value.forEach((elem) => (elem.checked = false));
-  comments.value.forEach((elem) => elem.classList.remove("doc__comQuantity--active"));
+  filterCount.value.forEach((elem) => elem.classList.remove("doc__comQuantity--active"));
   searchBar.value = "";
 }
-//-----------------------------------------------------------------------------------\\
 
 onMounted(fetchDoctors);
+//-----------------------------------------------------------------------------------\\
+
+
+
+
+
+//--------------------------------------COMMENTS-------------------------------------\\
+
+const comments = ref(store.users);
+
+async function fetchComments() {
+  await store.getComments();
+  comments.value = store.users;
+}
+
+// function dateToUnix(dateStr) {
+//   const dateObj = new Date(dateStr);
+//   return Math.floor(dateObj.getTime() / 1000);
+// }
+
+function unixToReadable(unixTimestamp) {
+  const dateObj = new Date(unixTimestamp * 1000);
+  return dateObj.toLocaleString("ru-RU", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  });
+}
+
+function commentsExpand(elem) {
+  // console.log(document.getElementById(`answers-${elem}`));
+  document.getElementById(`answers-${elem}`).classList.toggle('answerer__wrapper--opened');
+  // console.log(document.getElementById(`showRest-answers-comment-svg-${elem}`));
+  document.getElementById(`showRest-answers-comment-svg-${elem}`).classList.toggle('showAll__svg--rotateUp');
+
+}
+
+
+onMounted(fetchComments);
 </script>
 
 <style lang="scss" scoped></style>
