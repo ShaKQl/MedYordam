@@ -374,28 +374,36 @@
     padding: 20px 16px;
     border-radius: 0 14px 14px 14px;
     color: $simple-white;
-
+    
     &__ansDoc {
         font-size: 16px;
         font-weight: 500;
     }
-
+    
     &__docDate {
         font-size: 14px;
         line-height: 140%;
         font-weight: 400;
     }
-
+    
     &__wrapper{
         display: flex;
         align-items: baseline;
     }
-
+    
     &__text {
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
+        display: -webkit-inline;
+        -webkit-box-orient:block-axis;
         -webkit-line-clamp: 3;
         overflow: hidden;
+        text-overflow: ellipsis;
+
+        background: #000;
+
+        &--full{
+            -webkit-line-clamp: unset;
+        }
+        position: relative;
 
         color: $simple-white;
         font-size: 14px;
@@ -403,9 +411,22 @@
     }
 
     &__moreBtn {
+        white-space: nowrap;
+        // position: absolute;
         color: $simple-white;
         bottom: 0;
         right: 0;
-        background: $text-docComments-blue;
+        background: $text-docComments-blue ;
+        background-clip:content-box;
+
+        &--nearSided{
+            position: static;
+        }
+
+        // background: $simple-white border-box, $text-docComments-blue padding-box;
+        // width: 50%;
+        // text-align: right;
+        // padding-left: 75px;
+        // opacity: 0.5;
     }
 }

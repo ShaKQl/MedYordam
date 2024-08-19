@@ -68,8 +68,8 @@
                 </div>
 
                 <div class="question__text">
-                  "{{ el.question }}...
-                  <span class="question__moreBtn">Читать полностью</span>
+                  <p class="question__containText">"{{ el.question }} <span  class="question__moreBtn">Читать полностью</span></p> 
+                  
                 </div>
               </div>
 
@@ -85,7 +85,6 @@
             <div class="answerer__wrapper" :id="`answers-${el.id}`">
               <div v-for="elem in el.answers" :key="elem.id" class="comment__answerer answerer">
                 <div class="answerer__ava docAvatar">
-
                   <img src="../../assets/images/UsmanAkaDoctor.jpg" alt="" class="docAvatar__img answerer__ava_img" />
                 </div>
                 <div class="user__qstion answer">
@@ -95,16 +94,18 @@
                   </div>
 
                   <div class="answer__wrapper">
-                    <div class="answer__text">
-                      "{{ elem.answer }}...
-                      <span class="answer__moreBtn">Читать полностью</span>
+                    <div  class="answer__text">
+                     "{{ elem.answer }} Lorem ipsum dolor, sit amet consectetur adipisicing elit. Reprehenderit aut blanditiis quisquam. Ea quae molestiae dolor dolorum expedita? Consectetur aliquam omnis voluptatem accusamus illum at! Perspiciatis iusto eveniet repudiandae ratione! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolorum nulla nemo molestiae illum quam unde voluptates sed deserunt, commodi perspiciatis omnis reiciendis, assumenda voluptatem sapiente iste eos aut. Eveniet, velit? Similique tempora ipsum adipisci repellendus cupiditate. Nisi vero labore debitis ab voluptates, quos quaerat iure fugit autem provident odio quisquam 
+                     <span @click="event => showFullText(event.target)" class="answer__moreBtn"><span>...</span> Читать полностью</span>
+                     
+                     
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <button @click="commentsExpand(el.id)" class="comment__allAnswers showAll">
-              <p class="showAll__text">
+              <p  class="showAll__text">
                 Смотреть все ответы ({{ el.answers.length - 1 }})
               </p>
               <img src="../../assets/images/Dropdown.svg" :id="`showRest-answers-comment-svg-${el.id}`" alt="" class="showAll__svg" />
@@ -156,6 +157,8 @@ function cancelChoice() {
   searchBar.value = "";
 }
 
+
+
 onMounted(fetchDoctors);
 //-----------------------------------------------------------------------------------\\
 
@@ -197,6 +200,22 @@ function commentsExpand(elem) {
 
 }
 
+function showFullText(lema){
+  const modificationToAdd = `${lema.classList[0]}--nearSided` 
+  const parentTextBox = lema.parentNode 
+  
+  parentTextBox.classList.toggle(`${parentTextBox.classList[0]}--full`)
+  lema.classList.toggle(modificationToAdd)
+  
+  lema.classList.forEach((el)=>{
+    if (el === modificationToAdd) {
+      lema.innerHTML = 'Скрыть'
+    } else {
+      lema.innerHTML = 'Читать полностью'
+    }
+  })
+
+}
 
 onMounted(fetchComments);
 </script>
