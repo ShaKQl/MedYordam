@@ -49,7 +49,7 @@
         </button>
       </div>
 
-      <div class="recmndtns__commSection recHelp">
+      <!-- <div class="recmndtns__commSection recHelp">
         <div v-for="el in comments" :key="el.id" class="recHelp__helpSection comment">
           <div class="comment__header helpData">
             <p class="helpData__qstionCount">Вопрос: {{ el.commentCount }}</p>
@@ -57,28 +57,27 @@
           </div>
 
           <div class="comment__ansWrapper">
-
             <div class="comment__asker user">
               <div class="user__qstion question">
                 <div class="question__data">
-                  <p class="question__ansCount">
-                    Получено ответов ({{ el.answersGot }})
-                  </p>
+                  <p class="question__ansCount">Получено ответов ({{ el.answersGot }})</p>
                   <p class="question__userData">{{ el.name }} ({{ el.age }} лет)</p>
                 </div>
 
                 <div class="question__text">
-                  <p class="question__containText">"{{ el.question }} <span  class="question__moreBtn">Читать полностью</span></p> 
-                  
+                  <p class="question__containText">
+                    "{{ el.question }}
+                    <span class="question__moreBtn">Читать полностью</span>
+                  </p>
                 </div>
               </div>
 
               <div v-if="el.gender == 'Male'" class="user__ava">
-                  <img src="../../assets/images/Male.png" alt="" class=" user__ava_img" />
+                <img src="../../assets/images/Male.png" alt="" class="user__ava_img" />
               </div>
 
               <div v-else class="user__ava user__ava--female">
-                  <img src="../../assets/images/FeMale.png" alt="" class=" user__ava_img " />
+                <img src="../../assets/images/FeMale.png" alt="" class="user__ava_img" />
               </div>
             </div>
 
@@ -94,26 +93,47 @@
                   </div>
 
                   <div class="answer__wrapper">
-                    <div  class="answer__text">
-                     "{{ elem.answer }} Lorem ipsum dolor, sit amet consectetur adipisicing elit. Reprehenderit aut blanditiis quisquam. Ea quae molestiae dolor dolorum expedita? Consectetur aliquam omnis voluptatem accusamus illum at! Perspiciatis iusto eveniet repudiandae ratione! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolorum nulla nemo molestiae illum quam unde voluptates sed deserunt, commodi perspiciatis omnis reiciendis, assumenda voluptatem sapiente iste eos aut. Eveniet, velit? Similique tempora ipsum adipisci repellendus cupiditate. Nisi vero labore debitis ab voluptates, quos quaerat iure fugit autem provident odio quisquam 
-                     <span @click="event => showFullText(event.target)" class="answer__moreBtn"><span>...</span> Читать полностью</span>
-                     
-                     
+                    <div class="answer__text">
+                      "{{ elem.answer }}
+                      <span @click="(event) => showFullText(event.target)" class="answer__moreBtn">
+                        Читать полностью</span>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <button @click="commentsExpand(el.id)" class="comment__allAnswers showAll">
-              <p  class="showAll__text">
+              <p class="showAll__text">
                 Смотреть все ответы ({{ el.answers.length - 1 }})
               </p>
-              <img src="../../assets/images/Dropdown.svg" :id="`showRest-answers-comment-svg-${el.id}`" alt="" class="showAll__svg" />
+              <img src="../../assets/images/Dropdown.svg" :id="`showRest-answers-comment-svg-${el.id}`" alt=""
+                class="showAll__svg" />
             </button>
           </div>
         </div>
+      </div> -->
+
+      <div class="pages">
+        <button class="pages__pageBtn">
+          <img src="../../assets/images/angle-left-b.svg" alt="" class="pages__pageBtn--left">
+        </button>
+        <ul class="pageList">
+          <li v-for="el in checkForPageNumber " :key="el" class="pageList__pageNum">{{ el }}</li>
+          <li v-if="pageNumbersLength % 4 !== 0 && pageNumbersLength < 5" class="pageList__pageNum">{{ pageNumbersLength +
+            1 }}</li>
+          <li v-else class="pageList__pageNum">...</li>
+
+          <!-- <li class="pageList__pageNum">4</li>
+          <li class="pageList__pageNum">...</li>   -->
+        </ul>
+        <button class="pages__pageBtn">
+          <img @click="getFourFromFull(comments, 4)" src="../../assets/images/angle-right-b.svg" alt=""
+            class="pages__pageBtn--right">
+        </button>
       </div>
     </div>
+
+    .
   </div>
 </template>
 
@@ -122,12 +142,8 @@
 // console.log(counter);
 // ** above comment is the easier way of getting the store mentioned in the store [counter.js]
 
-import { ref, watch, onMounted } from "vue";
+import { ref, watch, onMounted, computed } from "vue";
 import { useCounterStore } from "../../stores/counter";
-
-
-
-
 
 //----------------------------------------FILTER_SECTION-------------------------------------------\\
 const store = useCounterStore();
@@ -157,18 +173,43 @@ function cancelChoice() {
   searchBar.value = "";
 }
 
-
-
 onMounted(fetchDoctors);
 //-----------------------------------------------------------------------------------\\
-
-
-
-
 
 //--------------------------------------COMMENTS-------------------------------------\\
 
 const comments = ref(store.users);
+const pageNumbersLength = Math.floor(comments.length / 4)
+let morArara = ref([])
+
+function getFourFromFull(arr, k) {
+  let arara = [[], [], [], []];
+
+  // class Arara {
+  //   constructor(el, id) {
+  //     this.id = id;
+  //     this.partials = el;
+  //   }
+  // }
+  for (let n = 0; n < pageNumbersLength; n++) {
+    arara[n] = [];
+    console.log(arara);
+  }
+
+  for (let i = 0; i < 4; i++) {
+    for (let j = 0; j < arr.length; j++) {
+      console.log(arr[j].id % k !== 0);
+      if (arr[j].id % k !== 0) {
+        arara[i].push(new Object(arr[j]))
+      }
+      else{
+        break
+        console.log(1);
+      }
+    }
+  }
+  console.log(arara);
+}
 
 async function fetchComments() {
   await store.getComments();
@@ -193,28 +234,43 @@ function unixToReadable(unixTimestamp) {
 }
 
 function commentsExpand(elem) {
-  // console.log(document.getElementById(`answers-${elem}`));
-  document.getElementById(`answers-${elem}`).classList.toggle('answerer__wrapper--opened');
+  let wrapper = document.getElementById(`answers-${elem}`);
+  wrapper.classList.toggle("answerer__wrapper--opened");
   // console.log(document.getElementById(`showRest-answers-comment-svg-${elem}`));
-  document.getElementById(`showRest-answers-comment-svg-${elem}`).classList.toggle('showAll__svg--rotateUp');
-
+  document
+    .getElementById(`showRest-answers-comment-svg-${elem}`)
+    .classList.toggle("showAll__svg--rotateUp");
+  if (!wrapper.classList.contains("answerer__wrapper--opened")) {
+    showFullText;
+  }
 }
 
-function showFullText(lema){
-  const modificationToAdd = `${lema.classList[0]}--nearSided` 
-  const parentTextBox = lema.parentNode 
-  
-  parentTextBox.classList.toggle(`${parentTextBox.classList[0]}--full`)
-  lema.classList.toggle(modificationToAdd)
-  
-  lema.classList.forEach((el)=>{
-    if (el === modificationToAdd) {
-      lema.innerHTML = 'Скрыть'
-    } else {
-      lema.innerHTML = 'Читать полностью'
-    }
-  })
 
+const checkForPageNumber = computed(() => {
+  if (pageNumbersLength < 5) {
+    return pageNumbersLength;
+  }
+  else {
+
+    return 4
+
+  }
+})
+
+function showFullText(lema) {
+  const modificationToAdd = `${lema.classList[0]}--nearSided`;
+  const parentTextBox = lema.parentNode;
+  console.log(lema.parentNode);
+  parentTextBox.classList.toggle(`${parentTextBox.classList[0]}--full`);
+  lema.classList.toggle(modificationToAdd);
+
+  lema.classList.forEach((el) => {
+    if (el === modificationToAdd) {
+      lema.innerHTML = "Скрыть";
+    } else {
+      lema.innerHTML = "Читать полностью";
+    }
+  });
 }
 
 onMounted(fetchComments);

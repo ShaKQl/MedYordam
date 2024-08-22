@@ -1,7 +1,7 @@
 @mixin commentStyles {
     border-radius: 14px 0 14px 14px;
     padding: 18px 16px;
-    background: $comment-background-color;
+    background: $skinnish-white-color;
 
     &__data {
         display: flex;
@@ -14,7 +14,7 @@
         line-height: 140%;
         margin-top: 10px;
         font-size: 14px;
-        color: $text-mainFilter-color;
+        color: $text-darkBlue-color;
 
         display: -webkit-box;
         -webkit-box-orient: vertical;
@@ -23,7 +23,7 @@
     }
 
     &__ansCount {
-        color: $text-docComments-blue;
+        color: $text-lightBlue-color;
         font-size: 14px;
         line-height: 140%;
     }
@@ -43,7 +43,7 @@
 
 .main {
     display: flex;
-    color: $text-mainFilter-color;
+    color: $text-darkBlue-color;
     font-family: $fontName;
     gap: 20px;
     align-items: start;
@@ -63,7 +63,7 @@
 
     &__search {
         display: flex;
-        background: $comment-background-color;
+        background: $skinnish-white-color;
         justify-content: space-between;
         border: none;
         outline: none;
@@ -95,7 +95,7 @@
         font-weight: 500;
         font-size: 14px;
         font-family: $fontName;
-        color: $filter-reset-button;
+        color: $filter-reset-red-button;
         cursor: pointer;
     }
 }
@@ -140,7 +140,7 @@
         color: $text-grey;
 
         &--active {
-            color: $text-docComments-blue;
+            color: $text-lightBlue-color;
         }
     }
 
@@ -218,7 +218,7 @@
         gap: 12px;
         border: none;
         outline: none;
-        background: $text-docComments-blue ;
+        background: $text-lightBlue-color ;
         padding: 30px 60px;
         color: $simple-white;
         border-radius: 16px;
@@ -272,7 +272,7 @@
     gap: 8px;
     justify-content: center;
     align-items: center;
-    background: $comment-background-color;
+    background: $skinnish-white-color;
     border: none;
     outline: none;
     border-radius: 12px;
@@ -336,7 +336,7 @@
         transition: max-height 1s ease;
         
         &--opened{
-            max-height: 500px;
+            max-height: 1000px;
             transition: max-height 1sec ease;
             
             @media (max-height > 250px ) {
@@ -370,10 +370,11 @@
 .answer {
     @include commentStyles;
     align-items: start;
-    background: $text-docComments-blue;
+    background: $text-lightBlue-color;
     padding: 20px 16px;
     border-radius: 0 14px 14px 14px;
     color: $simple-white;
+    transition: height 0.5s;
     
     &__ansDoc {
         font-size: 16px;
@@ -397,10 +398,9 @@
         -webkit-line-clamp: 3;
         overflow: hidden;
         text-overflow: ellipsis;
-
-        background: #000;
-
+        
         &--full{
+            transition: height 0.5s;
             -webkit-line-clamp: unset;
         }
         position: relative;
@@ -412,21 +412,81 @@
 
     &__moreBtn {
         white-space: nowrap;
-        // position: absolute;
+        position: absolute;
         color: $simple-white;
         bottom: 0;
         right: 0;
-        background: $text-docComments-blue ;
+        background: $text-lightBlue-color ;
         background-clip:content-box;
+        width: 40%;
+        padding-left: 10px;
+        cursor: pointer;
 
         &--nearSided{
             position: static;
         }
 
-        // background: $simple-white border-box, $text-docComments-blue padding-box;
+        // background: $simple-white border-box, $text-lightBlue-color padding-box;
         // width: 50%;
         // text-align: right;
         // padding-left: 75px;
         // opacity: 0.5;
+    }
+}
+
+
+
+.pages{
+    margin-top: 60px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 160px;
+    justify-content: center;
+    // position: relative;
+
+    &__pageBtn{
+        border: none;
+        outline: none;
+        background: $text-lightBlue-color;
+        padding: 20px;
+        border-radius: 12px;
+        color: $simple-white;
+        line-height: 0;
+        cursor: pointer;
+        // &--left{
+        //     h
+        // }
+    }
+}
+
+.pageList{
+    display: flex;
+    gap: 10px;
+    text-align: center;
+    
+    &__pageNum{
+        color: $text-darkBlue-color;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 100%;
+        padding: 20px;
+        background-color: $simple-white;
+        border-radius: 12px;
+        width: 54px;
+        height: 54px;
+        cursor: pointer;
+        transition: border 0.5s ease; 
+        border : 1px solid rgba($text-lightBlue-color, 0) ;
+         
+        &--selected{
+            border : 1px solid rgba($text-lightBlue-color, 1.0) ;
+        }
+        
+        &:hover{
+            content: '';
+            border : 1px solid rgba($text-lightBlue-color, 1.0) ;
+            color: $text-lightBlue-color;
+        }
     }
 }
