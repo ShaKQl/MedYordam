@@ -244,7 +244,7 @@
     font-family: $fontName;
     background: $simple-white;
     border-radius: 18px;
-    
+
     &__header {
         color: $simple-white;
         display: flex;
@@ -253,20 +253,20 @@
         background: $comment-gradient;
     }
 
-    
-    &__ansWrapper{
+
+    &__ansWrapper {
         display: flex;
         flex-direction: column;
         gap: 20px;
-        padding: 24px 18px 17px 18px    ;
+        padding: 24px 18px 17px 18px;
 
     }
-    
-    
+
+
 }
 
 
-.showAll{
+.showAll {
     padding: 20px 0;
     display: flex;
     gap: 8px;
@@ -278,19 +278,20 @@
     border-radius: 12px;
     color: $text-grey;
     width: 100%;
-    
+
     cursor: pointer;
-    
-    &__text{
+
+    &__text {
         font-family: $fontName;
         font-size: 14px;
         font-weight: 500;
-        
+
     }
 
-    &__svg{
+    &__svg {
         transition: 0.5s ease;
-        &--rotateUp{
+
+        &--rotateUp {
             // transition: 0.5s ease;
             // display: inline-fle;
             transform: rotateZ(180deg);
@@ -303,15 +304,15 @@
     gap: 14px;
     justify-content: space-between;
     align-items: start;
-    
+
     &__ava {
         padding: 20px;
         background-color: $user-ava-male;
         border-radius: 50%;
         height: 70px;
         width: 70px;
-        
-        &--female{
+
+        &--female {
             background: $user-ava-female;
         }
     }
@@ -329,21 +330,21 @@
     align-items: start;
     margin-bottom: 10px;
 
-    &__wrapper{
+    &__wrapper {
         // margin-bottom: 24px;
         max-height: 140px;
         overflow: hidden;
         transition: max-height 1s ease;
-        
-        &--opened{
+
+        &--opened {
             max-height: 1000px;
             transition: max-height 1sec ease;
-            
-            @media (max-height > 250px ) {
-                overflow:visible;   
+
+            @media (max-height > 250px) {
+                overflow: visible;
             }
         }
-        
+
     }
 }
 
@@ -375,34 +376,35 @@
     border-radius: 0 14px 14px 14px;
     color: $simple-white;
     transition: height 0.5s;
-    
+
     &__ansDoc {
         font-size: 16px;
         font-weight: 500;
     }
-    
+
     &__docDate {
         font-size: 14px;
         line-height: 140%;
         font-weight: 400;
     }
-    
-    &__wrapper{
+
+    &__wrapper {
         display: flex;
         align-items: baseline;
     }
-    
+
     &__text {
         display: -webkit-inline;
-        -webkit-box-orient:block-axis;
+        -webkit-box-orient: block-axis;
         -webkit-line-clamp: 3;
         overflow: hidden;
         text-overflow: ellipsis;
-        
-        &--full{
+
+        &--full {
             transition: height 0.5s;
             -webkit-line-clamp: unset;
         }
+
         position: relative;
 
         color: $simple-white;
@@ -417,12 +419,12 @@
         bottom: 0;
         right: 0;
         background: $text-lightBlue-color ;
-        background-clip:content-box;
+        background-clip: content-box;
         width: 40%;
         padding-left: 10px;
         cursor: pointer;
 
-        &--nearSided{
+        &--nearSided {
             position: static;
         }
 
@@ -436,7 +438,7 @@
 
 
 
-.pages{
+.pages {
     margin-top: 60px;
     display: flex;
     gap: 10px;
@@ -445,7 +447,7 @@
     justify-content: center;
     // position: relative;
 
-    &__pageBtn{
+    &__pageBtn {
         border: none;
         outline: none;
         background: $text-lightBlue-color;
@@ -460,12 +462,13 @@
     }
 }
 
-.pageList{
+.pageList {
     display: flex;
     gap: 10px;
     text-align: center;
-    
-    &__pageNum{
+    transition: all 1s ease;
+
+    &__pageNum {
         color: $text-darkBlue-color;
         font-weight: 500;
         font-size: 14px;
@@ -476,17 +479,30 @@
         width: 54px;
         height: 54px;
         cursor: pointer;
-        transition: border 0.5s ease; 
-        border : 1px solid rgba($text-lightBlue-color, 0) ;
-         
-        &--selected{
-            border : 1px solid rgba($text-lightBlue-color, 1.0) ;
-        }
-        
-        &:hover{
-            content: '';
-            border : 1px solid rgba($text-lightBlue-color, 1.0) ;
+        transition: border 0.5s ease;
+        border: 1px solid rgba($text-lightBlue-color, 0);
+
+        &--selected {
+            border: 1px solid rgba($text-lightBlue-color, 1.0);
             color: $text-lightBlue-color;
         }
+
+
+        &:hover {
+            content: '';
+            border: 1px solid rgba($text-lightBlue-color, 1.0);
+            color: $text-lightBlue-color;
+        }
+
+        &--threeDot {
+            @extend .pageList__pageNum;
+            transition: width 3s;
+
+            &:hover {
+                cursor: context-menu;
+                border: 1px solid rgba($text-lightBlue-color, 0);
+            }
+        }
+
     }
 }

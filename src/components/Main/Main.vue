@@ -49,10 +49,10 @@
         </button>
       </div>
 
-      <!-- <div class="recmndtns__commSection recHelp">
-        <div v-for="el in comments" :key="el.id" class="recHelp__helpSection comment">
+       <div class="recmndtns__commSection recHelp">
+        <div v-for="el in comments[currentPage-1]" :key="el.id" class="recHelp__helpSection comment">
           <div class="comment__header helpData">
-            <p class="helpData__qstionCount">Вопрос: {{ el.commentCount }}</p>
+            <p class="helpData__qstionCount">Вопрос: {{ el.commentCount }} id: {{ el.id }}</p>
             <p class="helpData__qstionDate">{{ unixToReadable(el.date) }}</p>
           </div>
 
@@ -111,24 +111,24 @@
             </button>
           </div>
         </div>
-      </div> -->
+      </div> 
 
       <div class="pages">
-        <button class="pages__pageBtn">
+        <button @click="previousPage" class="pages__pageBtn">
           <img src="../../assets/images/angle-left-b.svg" alt="" class="pages__pageBtn--left">
         </button>
         <ul class="pageList">
-          <li v-for="el in checkForPageNumber " :key="el" class="pageList__pageNum">{{ el }}</li>
-          <li v-if="pageNumbersLength % 4 !== 0 && pageNumbersLength < 5" class="pageList__pageNum">{{ pageNumbersLength +
-            1 }}</li>
-          <li v-else class="pageList__pageNum">...</li>
-
-          <!-- <li class="pageList__pageNum">4</li>
-          <li class="pageList__pageNum">...</li>   -->
+          <li v-if="currentPage >= 3" class="pageList__pageNum--threeDot">...</li>
+          <li v-if="currentPage > comments.length- 2" class="pageList__pageNum ">{{ currentPage -2 }}</li>
+          <li v-if="currentPage > 1" class="pageList__pageNum ">{{ currentPage -1 }}</li>
+          <li class="pageList__pageNum pageList__pageNum--selected">{{ currentPage }}</li>
+          <li v-if="currentPage +1  <= comments.length"  class="pageList__pageNum">{{ currentPage +1 }}</li>
+          <li v-if="currentPage + 2  <= comments.length" class="pageList__pageNum">{{ currentPage +2 }}</li>
+          <li v-if="currentPage == 1" class="pageList__pageNum ">{{ currentPage +3 }}</li>
+          <li v-if="currentPage < comments.length -2" class="pageList__pageNum--threeDot">...</li>
         </ul>
-        <button class="pages__pageBtn">
-          <img @click="getFourFromFull(comments, 4)" src="../../assets/images/angle-right-b.svg" alt=""
-            class="pages__pageBtn--right">
+        <button @click="nextPage" class="pages__pageBtn">
+          <img src="../../assets/images/angle-right-b.svg" alt="" class="pages__pageBtn--right">
         </button>
       </div>
     </div>
@@ -179,41 +179,34 @@ onMounted(fetchDoctors);
 //--------------------------------------COMMENTS-------------------------------------\\
 
 const comments = ref(store.users);
-const pageNumbersLength = Math.floor(comments.length / 4)
-let morArara = ref([])
+let currentPage = ref(1)
 
-function getFourFromFull(arr, k) {
-  let arara = [[], [], [], []];
+// function getFourFromFull(arr, k) {
+//   let partials = Math.floor(arr.length/k)
+//   let array = [];
 
-  // class Arara {
-  //   constructor(el, id) {
-  //     this.id = id;
-  //     this.partials = el;
-  //   }
-  // }
-  for (let n = 0; n < pageNumbersLength; n++) {
-    arara[n] = [];
-    console.log(arara);
-  }
 
-  for (let i = 0; i < 4; i++) {
-    for (let j = 0; j < arr.length; j++) {
-      console.log(arr[j].id % k !== 0);
-      if (arr[j].id % k !== 0) {
-        arara[i].push(new Object(arr[j]))
-      }
-      else{
-        break
-        console.log(1);
-      }
-    }
-  }
-  console.log(arara);
-}
+//   for (let i = 0; i < partials; i++) {
+//     array[i] = [];
+
+
+//     for (let j = 0; j < arr.length; j++) {
+//       console.log(arr[i].id);
+//       if(arr[i].id % k !== 0){
+//         array[j].push(arr[i]);
+//       }
+//     }
+
+//   }
+//   console.log(array);
+
+// }
 
 async function fetchComments() {
   await store.getComments();
   comments.value = store.users;
+  comments.value = commArrSeparater(comments.value, 4)
+  console.log(comments.value);
 }
 
 // function dateToUnix(dateStr) {
@@ -245,17 +238,25 @@ function commentsExpand(elem) {
   }
 }
 
-
-const checkForPageNumber = computed(() => {
-  if (pageNumbersLength < 5) {
-    return pageNumbersLength;
+function nextPage(){
+  if (currentPage.value<comments.value.length) {
+    currentPage.value++
   }
-  else {
-
-    return 4
-
+}
+function previousPage(){
+  if(currentPage.value>1){
+    currentPage.value--
   }
-})
+}
+
+function commArrSeparater(arr, step) {
+  let array = ref([]);
+  for (let i = 0; i < arr.length; i = i + step) {
+    array.value.push(arr.slice(i, i + step));
+  }
+  return array.value
+}
+
 
 function showFullText(lema) {
   const modificationToAdd = `${lema.classList[0]}--nearSided`;
@@ -272,6 +273,7 @@ function showFullText(lema) {
     }
   });
 }
+
 
 onMounted(fetchComments);
 </script>

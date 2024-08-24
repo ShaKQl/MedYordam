@@ -19,7 +19,7 @@ export const useCounterStore = defineStore('counter', () => {
     try {
       const result = await axios.get('/src/stores/JSON/users.json')
       users.value = result.data;
-      console.log(users.value);
+      // console.log(users.value);
     } catch (error) {
       console.error('Error fetching users:', error);
     }
