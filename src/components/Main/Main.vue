@@ -51,11 +51,11 @@
 
 
           <!-- --------------------------------- -->
-        <div v-for="el in currentBlockArray.arr" :key="el.id" class="recHelp__helpSection comment">  
-          <!-- --------------------------------- -->
+        <div v-for="el in separatedForBlocksComments[block][page]" :key="el.id" class="recHelp__helpSection comment">  
+          
           
 
-          
+
           
           <div class="comment__header helpData">
             <p class="helpData__qstionCount">Вопрос: {{ el.commentCount }} id: {{ el.id }}</p>
@@ -109,35 +109,38 @@
             </div>
             <button @click="commentsExpand(el.id)" class="comment__allAnswers showAll">
               <p class="showAll__text">
-                Смотреть все ответы ({{ el.answers.length - 1 }})
+                Смотреть все ответы ({{ el.answersGot - 1}})
               </p>
               <img src="../../assets/images/Dropdown.svg" :id="`showRest-answers-comment-svg-${el.id}`" alt=""
                 class="showAll__svg" />
             </button>
           </div>
         </div>
+        <!-- --------------------------------- -->
+
+
       </div>
       <div class="pages">
         <button @click="previousPage" class="pages__pageBtn">
           <img src="../../assets/images/angle-left-b.svg" alt="" class="pages__pageBtn--left">
         </button>
         <!-- <ul class="pageList">
-          <li v-if="currentPage >= 3" class="pageList__pageNum--threeDot">...</li>
-          <li v-if="currentPage > comments.length- 2" class="pageList__pageNum ">{{ currentPage -2 }}</li>
-          <li v-if="currentPage > 1" class="pageList__pageNum ">{{ currentPage -1 }}</li>
-          <li class="pageList__pageNum pageList__pageNum--selected">{{ currentPage }}</li>
-          <li v-if="currentPage +1  <= comments.length"  class="pageList__pageNum">{{ currentPage +1 }}</li>
-          <li v-if="currentPage + 2  <= comments.length" class="pageList__pageNum">{{ currentPage +2 }}</li>
-          <li v-if="currentPage == 1" class="pageList__pageNum ">{{ currentPage +3 }}</li>
-          <li v-if="currentPage < comments.length -2" class="pageList__pageNum--threeDot">...</li>
+          <li v-if="page >= 3" class="pageList__pageNum--threeDot">...</li>
+          <li v-if="page > comments.length- 2" class="pageList__pageNum ">{{ page -2 }}</li>
+          <li v-if="page > 1" class="pageList__pageNum ">{{ page -1 }}</li>
+          <li class="pageList__pageNum pageList__pageNum--selected">{{ page }}</li>
+          <li v-if="page +1  <= comments.length"  class="pageList__pageNum">{{ page +1 }}</li>
+          <li v-if="page + 2  <= comments.length" class="pageList__pageNum">{{ page +2 }}</li>
+          <li v-if="page == 1" class="pageList__pageNum ">{{ page +3 }}</li>
+          <li v-if="page < comments.length -2" class="pageList__pageNum--threeDot">...</li>
         </ul> -->
         <ul class="pageList">
         
 
 
           <!-- --------------------------------- -->
-          <li ref="pagesListCurr" @click="el => chngCurr(el.target)" v-for="el, id in shownBlock" :key="id"
-            class="pageList__pageNum">{{ id + 1}}</li>
+          <li ref="pagesListCurr" @click="el => chngCurr(el.target)" v-for="el, id in updateCurr" :key="id"
+            class="pageList__pageNum">{{  }} </li>
           <!-- --------------------------------- -->
         
 
@@ -167,39 +170,40 @@ const docList = ref(store.docs);
 const inputables = ref(null);
 const searchBar = ref("");
 const filterCount = ref("");
-
 async function fetchDoctors() {
   await store.getDoctors();
   docList.value = store.docs;
-}
-
-function chngColor(id) {
+}function chngColor(id) {
   document.getElementById(id).classList.toggle("doc__comQuantity--active");
-}
-
-watch(searchBar, () => {
+}watch(searchBar, () => {
   docList.value = store.docs.filter((el) => {
     return el.name.toLowerCase().includes(searchBar.value.toLowerCase());
   });
 });
-
 function cancelChoice() {
   inputables.value.forEach((elem) => (elem.checked = false));
   filterCount.value.forEach((elem) => elem.classList.remove("doc__comQuantity--active"));
   searchBar.value = "";
-}
-
-onMounted(fetchDoctors);
+}onMounted(fetchDoctors);
 //-----------------------------------------------------------------------------------\\
+
+
+
+
+
 
 //--------------------------------------COMMENTS-------------------------------------\\
 
 const comments = ref(store.users);
 const pagesListCurr = ref('');
-const pagesBtnToBeShown = 4            //easey--accesible--button-quantity--control
-const separatedBlock = ref([])
-let shownBlock = ref([])
-let currentPage = ref(1)
+const separatedForBlocksComments = ref([[]])
+
+const pagesBtnToBeShown = ref(4)            //easey--accesible--button-quantity--control
+const commentsPerPage = ref(4)
+
+let page = ref(0)
+let block = ref(0)
+
 
 
 // =================================================================================
@@ -208,22 +212,21 @@ let currentBlockArray = ref([{
   arr: ref([])
 }])
 
-// class SeparateArray{
-//   constructor(arr, id) {
-//     this.id = id;
-//     this.arr = arr
-//   }
-// }
+class SeparateArray{
+  constructor(arr, k) {
+    this.id = k++;
+    this.arr = arr
+  }
+}
 
 
 
 function chngCurr(elem) {
-  if(elem.innerHTML !== currentPage.value){
-    currentPage.value = elem.innerHTML;
-    console.log(currentBlockArray.value);
-    console.log(separatedBlock.value);
-    console.log(shownBlock.value);
-    updateCurr()
+  if(elem.innerHTML !== page.value+1){
+    page.value = elem.innerHTML - 1;
+   
+    updateCurr
+   
     const firstClass = elem.classList[0]
     pagesListCurr.value.forEach((el) => {
       el.classList.remove(`${firstClass}--selected`)
@@ -233,47 +236,92 @@ function chngCurr(elem) {
 }
 
 function letTheKidsPlay( ) {
-  separatedBlock.value = ArrSeparater(comments.value, pagesBtnToBeShown)
-  updateCurr()
+  separatedForBlocksComments.value = ArrSeparater(comments.value, pagesBtnToBeShown.value)  //-----------------2
+  currentBlockArray.value = comments.value[page.value]
+
+  // console.log(page.value);
+  // // console.log(comments.value);
+  // console.log(separatedForBlocksComments.value);
+  // console.log(currentBlockArray.value);
 }
 
-function updateCurr(){
-  currentBlockArray.value = comments.value[currentPage.value - 1]
-  shownBlock.value = separatedBlock.value[currentBlockArray.value]
-}
+const updateCurr = computed(()=>{
+  const numb = page.value + (block.value*4) + 1
+  const bool = (numb <= comments.value.length-1)
+  let counter = 0;
+  const arra = separatedForBlocksComments.value[block.value][page.value];
+
+  if(bool){
+    comments.value.forEach((el)=>{
+      console.log();
+      el = new SeparateArray(el, counter)
+    })
+    console.log(comments.value);
+    return arra //------------------------------------------3
+  }
+})
 
 async function fetchComments() {
   await store.getComments();
-  
   comments.value = store.users;
-  comments.value = ArrSeparater(comments.value, pagesBtnToBeShown)
+  comments.value = ArrSeparater(comments.value, commentsPerPage.value) // ---------------------1
   letTheKidsPlay()
-  
 }
 
 function nextPage() {
-  if (currentPage.value < comments.value.length) {
-    currentPage.value++
-    // currentBlockArray.value = comments.value[currentPage.value - 1]
+  if (page.value+1 < commentsPerPage.value) {
+    page.value++
   }
-}
-function previousPage() {
-  if (currentPage.value > 1) {
-    currentPage.value--
-    // currentBlockArray.value = comments.value[currentPage.value - 1]
+  else if(block.value < separatedForBlocksComments.value.length) {
+    block.value = block.value + 1 
+    page.value = 0
   }
+  const firstClass = pagesListCurr.value[0].classList[0]
+  pagesListCurr.value.forEach((el,id) => {
+      el.classList.remove(`${firstClass}--selected`)
+      if(id == page.value){
+        el.classList.add(`${firstClass}--selected`)
+      }
+  })
+  console.log(separatedForBlocksComments.value[block.value][page.value])
+  console.log(separatedForBlocksComments.value)
+  console.log(block.value)
+  console.log(page.value)
 }
 
-// =================================================================================
+ 
+function previousPage() {
+  if (page.value > 0) {
+    page.value--
+  }
+  else if(block.value > 0) {
+    block.value = block.value - 1 
+    page.value = 0
+  }
+  const firstClass = pagesListCurr.value[0].classList[0]
+  pagesListCurr.value.forEach((el,id) => {
+      el.classList.remove(`${firstClass}--selected`)
+      if(id == page.value){
+        el.classList.add(`${firstClass}--selected`)
+      }
+  })
+}
 
 function ArrSeparater(arr, step) {
   let array = ref([]);
   for (let i = 0; i < arr.length; i = i + step) {
-    array.value.push(arr.slice(i, i + step), i);
+    array.value.push(arr.slice(i, i + step));
   }
   return array.value
 }
 
+
+
+
+
+
+
+// =================================================================================
 function unixToReadable(unixTimestamp) {
   const dateObj = new Date(unixTimestamp * 1000);
   return dateObj.toLocaleString("ru-RU", {
@@ -284,9 +332,7 @@ function unixToReadable(unixTimestamp) {
     minute: "numeric",
     hour12: true,
   });
-}
-
-function commentsExpand(elem) {
+}function commentsExpand(elem) {
   let wrapper = document.getElementById(`answers-${elem}`);
   wrapper.classList.toggle("answerer__wrapper--opened");
   // console.log(document.getElementById(`showRest-answers-comment-svg-${elem}`));
@@ -296,11 +342,7 @@ function commentsExpand(elem) {
   if (!wrapper.classList.contains("answerer__wrapper--opened")) {
     showFullText;
   }
-}
-
-
-
-function showFullText(lema) {
+}function showFullText(lema) {
   const modificationToAdd = `${lema.classList[0]}--nearSided`;
   const parentTextBox = lema.parentNode;
   parentTextBox.classList.toggle(`${parentTextBox.classList[0]}--full`);
@@ -313,10 +355,7 @@ function showFullText(lema) {
       lema.innerHTML = "Читать полностью";
     }
   });
-}
-
-
-onMounted(fetchComments);
+}onMounted(fetchComments);
 </script>
 
 <style lang="scss" scoped></style>
