@@ -28,7 +28,6 @@
         </div>
       </div>
     </div>
-
     <div class="main__recComments recmndtns">
       <div class="recmndtns__header recTitle">
         <h1 class="recTitle__headbar">
@@ -40,7 +39,6 @@
           <p class="recTitle__sortby">Сортировать по</p>
         </button>
       </div>
-
       <div class="recmndtns__searchBar searchTerm">
         <input type="text" class="searchTerm__input" placeholder="Искать по тексту в вопросе" />
         <button class="searchTerm__searchBtn">
@@ -48,14 +46,21 @@
           <p class="searchTerm__searchTxt">Поиск</p>
         </button>
       </div>
+      <div class="recmndtns__commSection recHelp">
 
-       <div class="recmndtns__commSection recHelp">
-        <div v-for="el in comments[currentPage-1]" :key="el.id" class="recHelp__helpSection comment">
+
+
+          <!-- --------------------------------- -->
+        <div v-for="el in currentBlockArray.arr" :key="el.id" class="recHelp__helpSection comment">  
+          <!-- --------------------------------- -->
+          
+
+          
+          
           <div class="comment__header helpData">
             <p class="helpData__qstionCount">Вопрос: {{ el.commentCount }} id: {{ el.id }}</p>
             <p class="helpData__qstionDate">{{ unixToReadable(el.date) }}</p>
           </div>
-
           <div class="comment__ansWrapper">
             <div class="comment__asker user">
               <div class="user__qstion question">
@@ -111,13 +116,12 @@
             </button>
           </div>
         </div>
-      </div> 
-
+      </div>
       <div class="pages">
         <button @click="previousPage" class="pages__pageBtn">
           <img src="../../assets/images/angle-left-b.svg" alt="" class="pages__pageBtn--left">
         </button>
-        <ul class="pageList">
+        <!-- <ul class="pageList">
           <li v-if="currentPage >= 3" class="pageList__pageNum--threeDot">...</li>
           <li v-if="currentPage > comments.length- 2" class="pageList__pageNum ">{{ currentPage -2 }}</li>
           <li v-if="currentPage > 1" class="pageList__pageNum ">{{ currentPage -1 }}</li>
@@ -126,6 +130,18 @@
           <li v-if="currentPage + 2  <= comments.length" class="pageList__pageNum">{{ currentPage +2 }}</li>
           <li v-if="currentPage == 1" class="pageList__pageNum ">{{ currentPage +3 }}</li>
           <li v-if="currentPage < comments.length -2" class="pageList__pageNum--threeDot">...</li>
+        </ul> -->
+        <ul class="pageList">
+        
+
+
+          <!-- --------------------------------- -->
+          <li ref="pagesListCurr" @click="el => chngCurr(el.target)" v-for="el, id in shownBlock" :key="id"
+            class="pageList__pageNum">{{ id + 1}}</li>
+          <!-- --------------------------------- -->
+        
+
+
         </ul>
         <button @click="nextPage" class="pages__pageBtn">
           <img src="../../assets/images/angle-right-b.svg" alt="" class="pages__pageBtn--right">
@@ -134,7 +150,7 @@
     </div>
 
     .
-  </div>
+  </div> 
 </template>
 
 <script setup>
@@ -179,40 +195,84 @@ onMounted(fetchDoctors);
 //--------------------------------------COMMENTS-------------------------------------\\
 
 const comments = ref(store.users);
+const pagesListCurr = ref('');
+const pagesBtnToBeShown = 4            //easey--accesible--button-quantity--control
+const separatedBlock = ref([])
+let shownBlock = ref([])
 let currentPage = ref(1)
 
-// function getFourFromFull(arr, k) {
-//   let partials = Math.floor(arr.length/k)
-//   let array = [];
 
+// =================================================================================
+let currentBlockArray = ref([{
+  id:0,
+  arr: ref([])
+}])
 
-//   for (let i = 0; i < partials; i++) {
-//     array[i] = [];
-
-
-//     for (let j = 0; j < arr.length; j++) {
-//       console.log(arr[i].id);
-//       if(arr[i].id % k !== 0){
-//         array[j].push(arr[i]);
-//       }
-//     }
-
+// class SeparateArray{
+//   constructor(arr, id) {
+//     this.id = id;
+//     this.arr = arr
 //   }
-//   console.log(array);
-
 // }
+
+
+
+function chngCurr(elem) {
+  if(elem.innerHTML !== currentPage.value){
+    currentPage.value = elem.innerHTML;
+    console.log(currentBlockArray.value);
+    console.log(separatedBlock.value);
+    console.log(shownBlock.value);
+    updateCurr()
+    const firstClass = elem.classList[0]
+    pagesListCurr.value.forEach((el) => {
+      el.classList.remove(`${firstClass}--selected`)
+    })
+    elem.classList.add(`${firstClass}--selected`)
+  }
+}
+
+function letTheKidsPlay( ) {
+  separatedBlock.value = ArrSeparater(comments.value, pagesBtnToBeShown)
+  updateCurr()
+}
+
+function updateCurr(){
+  currentBlockArray.value = comments.value[currentPage.value - 1]
+  shownBlock.value = separatedBlock.value[currentBlockArray.value]
+}
 
 async function fetchComments() {
   await store.getComments();
+  
   comments.value = store.users;
-  comments.value = commArrSeparater(comments.value, 4)
-  console.log(comments.value);
+  comments.value = ArrSeparater(comments.value, pagesBtnToBeShown)
+  letTheKidsPlay()
+  
 }
 
-// function dateToUnix(dateStr) {
-//   const dateObj = new Date(dateStr);
-//   return Math.floor(dateObj.getTime() / 1000);
-// }
+function nextPage() {
+  if (currentPage.value < comments.value.length) {
+    currentPage.value++
+    // currentBlockArray.value = comments.value[currentPage.value - 1]
+  }
+}
+function previousPage() {
+  if (currentPage.value > 1) {
+    currentPage.value--
+    // currentBlockArray.value = comments.value[currentPage.value - 1]
+  }
+}
+
+// =================================================================================
+
+function ArrSeparater(arr, step) {
+  let array = ref([]);
+  for (let i = 0; i < arr.length; i = i + step) {
+    array.value.push(arr.slice(i, i + step), i);
+  }
+  return array.value
+}
 
 function unixToReadable(unixTimestamp) {
   const dateObj = new Date(unixTimestamp * 1000);
@@ -238,30 +298,11 @@ function commentsExpand(elem) {
   }
 }
 
-function nextPage(){
-  if (currentPage.value<comments.value.length) {
-    currentPage.value++
-  }
-}
-function previousPage(){
-  if(currentPage.value>1){
-    currentPage.value--
-  }
-}
-
-function commArrSeparater(arr, step) {
-  let array = ref([]);
-  for (let i = 0; i < arr.length; i = i + step) {
-    array.value.push(arr.slice(i, i + step));
-  }
-  return array.value
-}
 
 
 function showFullText(lema) {
   const modificationToAdd = `${lema.classList[0]}--nearSided`;
   const parentTextBox = lema.parentNode;
-  console.log(lema.parentNode);
   parentTextBox.classList.toggle(`${parentTextBox.classList[0]}--full`);
   lema.classList.toggle(modificationToAdd);
 
