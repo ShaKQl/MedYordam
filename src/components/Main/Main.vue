@@ -139,11 +139,9 @@
 
 
           <!-- --------------------------------- -->
-          <li ref="pagesListCurr" @click="el => chngCurr(el.target)" v-for="el, id in updateCurr" :key="id"
-            class="pageList__pageNum">{{  }} </li>
+          <li ref="pagesListCurr" @click="el => chngCurr(el.target)" v-for="el, id in comments" :key="id"
+            class="pageList__pageNum">{{ id+1 }} </li>
           <!-- --------------------------------- -->
-        
-
 
         </ul>
         <button @click="nextPage" class="pages__pageBtn">
@@ -257,6 +255,7 @@ const updateCurr = computed(()=>{
       el = new SeparateArray(el, counter)
     })
     console.log(comments.value);
+    
     return arra //------------------------------------------3
   }
 })
