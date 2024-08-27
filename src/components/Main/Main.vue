@@ -50,13 +50,13 @@
 
 
 
-          <!-- --------------------------------- -->
-        <div v-for="el in separatedForBlocksComments[block][page]" :key="el.id" class="recHelp__helpSection comment">  
-          
-          
+        <!-- --------------------------------- -->
+        <div v-for="el in comments[page]" :key="el.id" class="recHelp__helpSection comment">
 
 
-          
+
+
+
           <div class="comment__header helpData">
             <p class="helpData__qstionCount">Вопрос: {{ el.commentCount }} id: {{ el.id }}</p>
             <p class="helpData__qstionDate">{{ unixToReadable(el.date) }}</p>
@@ -109,7 +109,7 @@
             </div>
             <button @click="commentsExpand(el.id)" class="comment__allAnswers showAll">
               <p class="showAll__text">
-                Смотреть все ответы ({{ el.answersGot - 1}})
+                Смотреть все ответы ({{ el.answersGot - 1 }})
               </p>
               <img src="../../assets/images/Dropdown.svg" :id="`showRest-answers-comment-svg-${el.id}`" alt=""
                 class="showAll__svg" />
@@ -134,13 +134,13 @@
           <li v-if="page == 1" class="pageList__pageNum ">{{ page +3 }}</li>
           <li v-if="page < comments.length -2" class="pageList__pageNum--threeDot">...</li>
         </ul> -->
-        <ul class="pageList">
-        
+        <ul ref="wrapList" class="pageList">
+
 
 
           <!-- --------------------------------- -->
-          <li ref="pagesListCurr" @click="el => chngCurr(el.target)" v-for="el, id in comments" :key="id"
-            class="pageList__pageNum">{{ id+1 }} </li>
+          <li ref="pagesListCurr" @click="elem => chngCurr(elem.target, el)" v-for="el, id in comments.length" :key="id"
+            class="pageList__pageNum"><span class="pageList__pageNum--number">{{ el }} </span></li>
           <!-- --------------------------------- -->
 
         </ul>
@@ -151,7 +151,7 @@
     </div>
 
     .
-  </div> 
+  </div>
 </template>
 
 <script setup>
@@ -171,9 +171,9 @@ const filterCount = ref("");
 async function fetchDoctors() {
   await store.getDoctors();
   docList.value = store.docs;
-}function chngColor(id) {
+} function chngColor(id) {
   document.getElementById(id).classList.toggle("doc__comQuantity--active");
-}watch(searchBar, () => {
+} watch(searchBar, () => {
   docList.value = store.docs.filter((el) => {
     return el.name.toLowerCase().includes(searchBar.value.toLowerCase());
   });
@@ -182,7 +182,7 @@ function cancelChoice() {
   inputables.value.forEach((elem) => (elem.checked = false));
   filterCount.value.forEach((elem) => elem.classList.remove("doc__comQuantity--active"));
   searchBar.value = "";
-}onMounted(fetchDoctors);
+} onMounted(fetchDoctors);
 //-----------------------------------------------------------------------------------\\
 
 
@@ -194,37 +194,21 @@ function cancelChoice() {
 
 const comments = ref(store.users);
 const pagesListCurr = ref('');
-const separatedForBlocksComments = ref([[]])
 
 const pagesBtnToBeShown = ref(4)            //easey--accesible--button-quantity--control
 const commentsPerPage = ref(4)
+const switchBtnPageWidth = ref(62)
+const wrapList = ref('')
 
 let page = ref(0)
-let block = ref(0)
 
 
 
 // =================================================================================
-let currentBlockArray = ref([{
-  id:0,
-  arr: ref([])
-}])
 
-class SeparateArray{
-  constructor(arr, k) {
-    this.id = k++;
-    this.arr = arr
-  }
-}
-
-
-
-function chngCurr(elem) {
-  if(elem.innerHTML !== page.value+1){
-    page.value = elem.innerHTML - 1;
-   
-    updateCurr
-   
+function chngCurr(elem, el) {
+  if (el !== page.value) {
+    page.value = el - 1;
     const firstClass = elem.classList[0]
     pagesListCurr.value.forEach((el) => {
       el.classList.remove(`${firstClass}--selected`)
@@ -233,77 +217,50 @@ function chngCurr(elem) {
   }
 }
 
-function letTheKidsPlay( ) {
-  separatedForBlocksComments.value = ArrSeparater(comments.value, pagesBtnToBeShown.value)  //-----------------2
-  currentBlockArray.value = comments.value[page.value]
-
-  // console.log(page.value);
-  // // console.log(comments.value);
-  // console.log(separatedForBlocksComments.value);
-  // console.log(currentBlockArray.value);
-}
-
-const updateCurr = computed(()=>{
-  const numb = page.value + (block.value*4) + 1
-  const bool = (numb <= comments.value.length-1)
-  let counter = 0;
-  const arra = separatedForBlocksComments.value[block.value][page.value];
-
-  if(bool){
-    comments.value.forEach((el)=>{
-      console.log();
-      el = new SeparateArray(el, counter)
-    })
-    console.log(comments.value);
-    
-    return arra //------------------------------------------3
-  }
-})
-
 async function fetchComments() {
   await store.getComments();
   comments.value = store.users;
   comments.value = ArrSeparater(comments.value, commentsPerPage.value) // ---------------------1
-  letTheKidsPlay()
+  wrapList.value.style.maxWidth = `${pagesBtnToBeShown.value * switchBtnPageWidth.value}px`
+  console.log(pagesListCurr.value);
+  chngCurr(pagesListCurr.value[page],2)
 }
 
 function nextPage() {
-  if (page.value+1 < commentsPerPage.value) {
-    page.value++
+  if (page.value + 1 < comments.value.length) {
+    page.value++;
   }
-  else if(block.value < separatedForBlocksComments.value.length) {
-    block.value = block.value + 1 
-    page.value = 0
-  }
-  const firstClass = pagesListCurr.value[0].classList[0]
-  pagesListCurr.value.forEach((el,id) => {
-      el.classList.remove(`${firstClass}--selected`)
-      if(id == page.value){
-        el.classList.add(`${firstClass}--selected`)
-      }
-  })
-  console.log(separatedForBlocksComments.value[block.value][page.value])
-  console.log(separatedForBlocksComments.value)
-  console.log(block.value)
-  console.log(page.value)
+  updatePageStyles();
 }
 
- 
 function previousPage() {
   if (page.value > 0) {
-    page.value--
+    page.value--;
   }
-  else if(block.value > 0) {
-    block.value = block.value - 1 
-    page.value = 0
-  }
-  const firstClass = pagesListCurr.value[0].classList[0]
-  pagesListCurr.value.forEach((el,id) => {
-      el.classList.remove(`${firstClass}--selected`)
-      if(id == page.value){
-        el.classList.add(`${firstClass}--selected`)
-      }
-  })
+  updatePageStyles();
+}
+
+function updatePageStyles() {
+  const firstClass = pagesListCurr.value[0].classList[0];
+  const totalWidth = pagesListCurr.value.length * switchBtnPageWidth.value;
+
+  pagesListCurr.value.forEach((el, id) => {
+    el.classList.remove(`${firstClass}--selected`);
+    if (id < page.value) {
+      el.style.left = `-${(page.value - id) * switchBtnPageWidth.value}px`;
+      el.style.visibility = 'hidden';
+    } else if (id > page.value + pagesBtnToBeShown.value - 1) {
+      el.style.left = `${totalWidth}px`;
+      el.style.visibility = 'hidden';
+    } else {
+      el.style.left = `${(id - page.value) * switchBtnPageWidth.value}px`;
+      el.style.visibility = 'visible';
+    }
+
+    if (id == page.value) {
+      el.classList.add(`${firstClass}--selected`);
+    }
+  });
 }
 
 function ArrSeparater(arr, step) {
@@ -331,7 +288,7 @@ function unixToReadable(unixTimestamp) {
     minute: "numeric",
     hour12: true,
   });
-}function commentsExpand(elem) {
+} function commentsExpand(elem) {
   let wrapper = document.getElementById(`answers-${elem}`);
   wrapper.classList.toggle("answerer__wrapper--opened");
   // console.log(document.getElementById(`showRest-answers-comment-svg-${elem}`));
@@ -341,7 +298,7 @@ function unixToReadable(unixTimestamp) {
   if (!wrapper.classList.contains("answerer__wrapper--opened")) {
     showFullText;
   }
-}function showFullText(lema) {
+} function showFullText(lema) {
   const modificationToAdd = `${lema.classList[0]}--nearSided`;
   const parentTextBox = lema.parentNode;
   parentTextBox.classList.toggle(`${parentTextBox.classList[0]}--full`);
@@ -354,7 +311,7 @@ function unixToReadable(unixTimestamp) {
       lema.innerHTML = "Читать полностью";
     }
   });
-}onMounted(fetchComments);
+} onMounted(fetchComments);
 </script>
 
 <style lang="scss" scoped></style>
