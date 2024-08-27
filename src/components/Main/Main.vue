@@ -134,16 +134,18 @@
           <li v-if="page == 1" class="pageList__pageNum ">{{ page +3 }}</li>
           <li v-if="page < comments.length -2" class="pageList__pageNum--threeDot">...</li>
         </ul> -->
+          <li v-if="page+1 > comments.length - pagesBtnToBeShown" class="pageList__pageNum--threeDot pageList__pageNum--threeDot-left">...</li>
         <ul ref="wrapList" class="pageList">
 
 
 
           <!-- --------------------------------- -->
-          <li ref="pagesListCurr" @click="elem => chngCurr(elem.target, el)" v-for="el, id in comments.length" :key="id"
-            class="pageList__pageNum"><span class="pageList__pageNum--number">{{ el }} </span></li>
+          <li ref="pagesListCurr"  @click="elem => chngCurr(elem.target, el)" v-for="el, id in comments.length" :key="id"
+            class="pageList__pageNum"><span class="pageList__pageNum--number ">{{ el }} </span></li>
           <!-- --------------------------------- -->
 
         </ul>
+          <li v-if="page+1 <= comments.length - pagesBtnToBeShown" class="pageList__pageNum--threeDot pageList__pageNum--threeDot-right">...</li>
         <button @click="nextPage" class="pages__pageBtn">
           <img src="../../assets/images/angle-right-b.svg" alt="" class="pages__pageBtn--right">
         </button>
@@ -159,7 +161,7 @@
 // console.log(counter);
 // ** above comment is the easier way of getting the store mentioned in the store [counter.js]
 
-import { ref, watch, onMounted, computed } from "vue";
+import { ref, watch, onMounted, computed, onBeforeUnmount, nextTick } from "vue";
 import { useCounterStore } from "../../stores/counter";
 
 //----------------------------------------FILTER_SECTION-------------------------------------------\\
@@ -222,9 +224,19 @@ async function fetchComments() {
   comments.value = store.users;
   comments.value = ArrSeparater(comments.value, commentsPerPage.value) // ---------------------1
   wrapList.value.style.maxWidth = `${pagesBtnToBeShown.value * switchBtnPageWidth.value}px`
-  console.log(pagesListCurr.value);
-  chngCurr(pagesListCurr.value[page],2)
+
+  await nextTick();
+
+  // Check if pagesListCurr is populated
+  if (pagesListCurr.value && pagesListCurr.value.length > 0) {
+    chngCurr(pagesListCurr.value[page.value], page.value + 1);
+    updatePageStyles();  // Update styles after setting the correct page
+  } else {
+    console.error("pagesListCurr is not populated yet.");
+  }
+
 }
+
 
 function nextPage() {
   if (page.value + 1 < comments.value.length) {
@@ -270,10 +282,6 @@ function ArrSeparater(arr, step) {
   }
   return array.value
 }
-
-
-
-
 
 
 
