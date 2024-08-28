@@ -26,6 +26,7 @@ ol {
 
 
 $fontName: 'SF-Pro-Text';
+$fontNameDisplay: 'SF-PRO-DISPLAY';
 
 $text-grey: #747474;
 $text-darkBlue-color: #050B2B;
@@ -39,6 +40,7 @@ $user-ava-male: #1760D7;
 $user-ava-female: #FF3E68;
 
 $sf-font-weights: (300,400,500,600,700);
+$sf-font-display-weights: (400,500,700);
 
 
 @each $weight in $sf-font-weights {
@@ -47,6 +49,18 @@ $sf-font-weights: (300,400,500,600,700);
     font-weight: $weight;
     src: url(../assets/fonts/SF-Pro-Text/SF-Pro-Text-#{$weight}.otf);
   }
+}
 
-  ;
+@font-face {
+  font-family: 'fontAn';
+  // font-weight: 500;
+  src: url(../assets/fonts/WordForSword/Multicolore-Pro.otf);
+}
+
+@each $weight in $sf-font-display-weights {
+  @font-face {
+    font-family: $fontNameDisplay;
+    font-weight: $weight;
+    src: url(../assets/fonts/sf-pro-display/SF-PRO-DISPLAY-500.OTF);
+  }
 }

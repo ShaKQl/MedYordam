@@ -198,7 +198,7 @@ const comments = ref(store.users);
 const pagesListCurr = ref('');
 
 const pagesBtnToBeShown = ref(4)            //easey--accesible--button-quantity--control
-const commentsPerPage = ref(4)
+const commentsPerPage = ref(5)
 const switchBtnPageWidth = ref(62)
 const wrapList = ref('')
 
